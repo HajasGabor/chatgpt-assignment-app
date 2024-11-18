@@ -1,0 +1,116 @@
+.statistics-container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.statistic-grid {
+    width: 80%;
+    padding: 3rem;
+    text-align: center;
+    color: white;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    margin-inline: auto;
+}
+
+.statistic-item {
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.statistic-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.statistic-item h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #3498db;
+}
+
+.statistic-item p {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.statistic-item p {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+
+    .statistic-grid {
+        width: 95%;
+        grid-template-columns: 1fr;
+        padding: 0.2rem;
+        overflow-y: auto;
+    }
+
+    .statistic-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .statistics-container {
+        width: 100%;
+    }
+
+    .statistic-item {
+        padding: 1rem;
+    }
+
+    .statistic-item h2 {
+        font-size: 1.25rem;
+    }
+
+    .statistic-item p {
+        font-size: 1rem;
+    }
+
+    .statistic-item canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .statistics-container {
+        padding: 0.5rem;
+    }
+
+    .statistic-item {
+        padding: 0.75rem;
+    }
+
+    .statistic-item h2 {
+        font-size: 1rem;
+    }
+
+    .statistic-item p {
+        font-size: 0.875rem;
+    }
+}
