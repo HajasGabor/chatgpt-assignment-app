@@ -40,7 +40,14 @@
     outline: none;
 }
 
-.registration-form p {
+.registration-form .success-message {
     text-align: center;
-    color: #ff0000;
+    color: #28a745;
+    font-weight: bold;
+}
+
+.registration-form .error-message {
+    text-align: center;
+    color: #dc3545;
+    font-weight: bold;
 }
