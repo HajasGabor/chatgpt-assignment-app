@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { fetchStudentStatistics } from '../../api/Assignments/Student/Statistics';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import '../../styles/Student/StudentStatistics.css';
+import '../../styles/Teacher/GeneratedAssignments.css'
 
 const StudentStatistics = () => {
     const [statistics, setStatistics] = useState(null);
@@ -36,6 +36,20 @@ const StudentStatistics = () => {
         return <div className="error">{error}</div>;
     }
 
+    // Ha nincsenek dolgozatok, jelenítsünk meg egy üzenetet
+    if (!statistics.assignmentsStatistics || statistics.assignmentsStatistics.length === 0) {
+        return (
+            <div id="content">
+                <div className="assignments-container">
+                    <h1 className="title">Statisztika</h1>
+                    <div className="assignment-grid">
+                        <p>Nem található kitöltött dolgozat.</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const totalPoints = statistics.assignmentsStatistics.reduce(
         (acc, assignment) => acc + assignment.totalPoints,
         0
@@ -54,22 +68,22 @@ const StudentStatistics = () => {
                 <h1 className="stat-title">Statisztikák</h1>
                 <div className='student-statistics'>
                     <div className="statistics-grid">
-                            <div className="student-statistic-item">
-                                <h2>megoldott dolgozatok száma</h2>
-                                <p className='stat-text'>{statistics.completedAssignmentsCount}</p>
+                        <div className="student-statistic-item">
+                            <h2>megoldott dolgozatok száma</h2>
+                            <p className='stat-text'>{statistics.completedAssignmentsCount}</p>
+                        </div>
+                        <div className="student-statistic-item">
+                            <h2>Az utolsó dolgozat statisztikái</h2>
+                            <div className="last-assignment">
+                                <p className='stat-text2'><strong>{statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].title}</strong></p>
+                                <p className='stat-text2'>
+                                    Elért pontszám: {statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].achievedPoints}
+                                    / {statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].totalPoints}
+                                </p>
+                                <p className='stat-text2'>
+                                    Kitöltés dátuma: {new Date(statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].completedAt).toLocaleDateString()}
+                                </p>
                             </div>
-                            <div className="student-statistic-item">
-                                <h2>Az utolsó dolgozat statisztikái</h2>
-                                <div className="last-assignment">
-                                    <p className='stat-text2'><strong>{statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].title}</strong></p>
-                                    <p className='stat-text2'>
-                                        Elért pontszám: {statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].achievedPoints}
-                                        / {statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].totalPoints}
-                                    </p>
-                                    <p className='stat-text2'>
-                                        Kitöltés dátuma: {new Date(statistics.assignmentsStatistics[statistics.assignmentsStatistics.length - 1].completedAt).toLocaleDateString()}
-                                    </p>
-                                </div>
                         </div>
                         <div className="student-statistic-item">
                             <h2>Átlagos pontszám</h2>
@@ -84,7 +98,7 @@ const StudentStatistics = () => {
 
                         <div className="student-statistic-item">
                             <h2>Teljesíett dolgozatok</h2>
-                            <p className='stat-text'> {statistics.completedAssignmentsCount}</p>
+                            <p className='stat-text'>{statistics.completedAssignmentsCount}</p>
                         </div>
                     </div>
                 </div>

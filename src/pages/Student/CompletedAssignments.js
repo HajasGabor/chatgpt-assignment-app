@@ -45,7 +45,7 @@ const CompletedAssignments = () => {
                 <div className="assignment-grid">
 
                     {assignments.length === 0 ? (
-                        <div>No completed assignments found.</div>
+                        <div>Nem található megoldott dolgozat.</div>
                     ) : (
                         assignments.slice().reverse().map((assignment) => (
                             <div key={assignment.assignmentId}>
