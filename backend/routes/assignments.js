@@ -364,11 +364,11 @@ router.post('/student/submit/:assignmentId', authenticateStudent, async (req, re
 
       if (studentAnswer) {
         // Use GPT to check if the student's answer matches the correct answer
-        const prompt = `Is the following answer correct based on the provided correct answer? Please answer "yes" or "no".
+        const prompt = `Helyes-e a diák válasza a megadott helyes válasz alapján? Kérjük, válaszoljon mindössze csak egy „igen” vagy „nem” szóval.
         
-        Question: ${question.questionText}
-        Correct Answer: ${question.correctAnswer}
-        Student's Answer: ${studentAnswer}`;
+        Kérdés: ${question.questionText}
+        Helyes válasz: ${question.correctAnswer}
+        Diák válasza: ${studentAnswer}`;
         
         const response = await openai.chat.completions.create({
           model: 'gpt-3.5-turbo',
@@ -380,7 +380,7 @@ router.post('/student/submit/:assignmentId', authenticateStudent, async (req, re
         const gptResponse = response.choices[0].message.content.trim().toLowerCase();
 
         // If GPT considers the answer correct, grant full points for the question
-        if (gptResponse === 'yes') {
+        if (gptResponse === "igen") {
           score = question.points;
           achievedPoints += question.points;
         }

@@ -33,8 +33,18 @@ router.post('/register', async (req, res) => {
 
     await user.save();
 
-    // A diákok esetén frissítjük az osztály `studentIds` mezőjét és hozzáadjuk az osztály dolgozataihoz
-    if (role === 'student' && className) {
+    if (role === 'teacher') {
+      // Tanári regisztráció esetén frissítjük az összes osztály teacherIds mezőjét
+      const classes = await Class.find({});
+      const bulkOperations = classes.map((classDoc) => ({
+        updateOne: {
+          filter: { _id: classDoc._id },
+          update: { $addToSet: { teacherIds: user._id } } // Tanár ID hozzáadása az osztályhoz, ha még nincs benne
+        }
+      }));
+      await Class.bulkWrite(bulkOperations);
+    } else if (role === 'student' && className) {
+      // A diákok esetén frissítjük az osztály `studentIds` mezőjét és hozzáadjuk az osztály dolgozataihoz
       const classDoc = await Class.findOne({ name: className });
 
       if (classDoc) {

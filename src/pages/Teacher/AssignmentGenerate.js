@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { generateAssignment } from '../../api/Assignments/Teacher/GenerateAssignment';
 import { fetchTeacherClasses } from '../../api/Assignments/Teacher/GetClasses';
+import { fetchTeacherSubject } from '../../api/Assignments/Teacher/GetSubject';
 import '../../styles/Teacher/AssignmentGenerate.css';
 
 const AssignmentGenerate = ({ token }) => {
@@ -27,6 +28,19 @@ const AssignmentGenerate = ({ token }) => {
         loadClasses();
     }, [token]);
 
+    useEffect(() => {
+        const loadSubject = async () => {
+            try {
+                const fetchedSubject = await fetchTeacherSubject(token);
+                setSubject(fetchedSubject);
+            } catch (error) {
+                setError(error.message || 'Hiba történt a tantárgy betöltése során.');
+            }
+        };
+
+        loadSubject();
+    }, [token]);
+
     const handleGenerate = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -43,7 +57,7 @@ const AssignmentGenerate = ({ token }) => {
             const data = await generateAssignment(title, subject, difficulty, className, questionCount);
             setMessage(data.message || 'A dolgozat sikeresen legenerálva!');
             setTitle('');
-            setSubject('');
+            // setSubject('');
             setDifficulty('Könnyű');
             setClassName('');
             setQuestionCount(5);
@@ -87,14 +101,13 @@ const AssignmentGenerate = ({ token }) => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="subject">Tantárgy</label>
+                            <label htmlFor="subject">Tantárgy:</label>
                             <input
                                 type="text"
-                                placeholder='Kérlek adj meg egy tantárgyat!'
                                 id="subject"
-                                value={subject}
-                                onChange={(e) => setSubject(e.target.value)}
-                                required
+                                name="subject"
+                                value={subject} // Az állapotot jeleníti meg
+                                readOnly // Nem módosítható
                             />
                         </div>
 
